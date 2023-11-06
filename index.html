@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<link rel="icon" type="image/png" href="logo_transparent2.png" sizes="16x16">
+<head>
+    <title>Yw2 3gx downloader</title>
+    <style>
+        /* スタイルを追加 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white; /* 初期の背景色を白に設定 */
+            margin: 0; /* ページの外側の余白を削除 */
+        }
+
+        #header {
+            background-color: #333; /* ヘッダーの背景色を設定 */
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        #header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        #logo {
+            font-size: 24px;
+            display: flex; /* ロゴとリンクを横並びにする */
+            align-items: center; /* ロゴとリンクを中央寄せ */
+
+        }
+
+        #nav-links {
+            display: flex;
+            align-items: center;
+            margin: 0 auto; /* ナビゲーションリンクを中央に配置 */
+        }
+
+        #nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-family: 'Arial', sans-serif; /* フォントを変更 */
+        }
+
+       #container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            position: relative;
+            font-size: 36px;
+        }
+
+
+.version {
+    font-weight: bold;
+    margin-top: 20px;
+    border-top: none;
+    padding-top: 20px;
+}
+
+.download-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 10px; /* 角を角丸にする */
+}
+
+        /* 詳細情報のアニメーション用スタイル */
+.download-details {
+    text-align: left; /* ファイル情報を左寄せに変更 */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out; /* 最大高さの変化をアニメーション化 */
+}
+
+        /* 詳細情報が表示中のスタイル */
+        .download-details.active {
+            max-height: 1000px; /* 適切な高さを設定 */
+        }
+
+.download-button {
+    background-color: #2196F3; /* ボタンの背景色を青に設定 */
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: transform 0.3s; /* アニメーションの設定 */
+}
+/* ダウンロードボタンと詳細ボタンを横並びにする */
+.download-button,
+.download-details {
+    display: inline-block;
+}
+
+.download-button:hover {
+    transform: scale(1.1); /* カーソルを合わせたときにボタンを拡大 */
+}
+/* 詳細ボタンのアイコンにトランジションを追加 */
+.details-arrow {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s; /* アニメーションの設定 */
+}
+
+.download-button.disabled .details-arrow {
+    transform: rotate(180deg); /* アイコンを回転 */
+}
+        .details-arrow:hover {
+            color: white;
+        }
+
+        .download-button.disabled {
+            cursor: not-allowed; /* 無効な状態でカーソルを変更 */
+        }
+
+        .url-button {
+            background-color: #4CAF50; /* URLにアクセスボタンの背景色を緑に変更 */
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer; /* カーソルをポインターに変更 */
+        }
+
+.details-button {
+    background-color: #2196F3; /* ボタンの背景色を青に設定 */
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: transform 0.3s; /* アニメーションの設定 */
+}
+
+.details-button:hover {
+    transform: scale(1.1); /* カーソルを合わせたときにボタンを拡大 */
+}
+        /* ダークモード用のスタイル */
+        .dark-mode {
+            background-color: #333; /* 背景色を黒に変更 */
+            color: white;
+        }
+
+        /* スイッチのスタイル */
+        .switch-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .switch-label {
+            margin-right: 10px; /* テキストの右側に余白を追加 */
+            text-align: center; /* テキストを中央寄せ */
+            color: white; /* 初期のテキスト色を設定 */
+        }
+
+        .switch-label.dark-mode {
+            color: white; /* ダークモード時のテキスト色を設定 */
+        }
+
+        .switch-input {
+            display: none;
+        }
+
+        .slider {
+            position: relative;
+            width: 60px;
+            height: 34px;
+            background-color: #ccc;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            content: "🌙"; /* ダークモードアイコンを追加 */
+            font-size: 20px;
+            position: absolute;
+            left: 6px;
+            top: 4px;
+            color: white; /* 初期のアイコン色を設定 */
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+        }
+
+        .switch-input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        .switch-input:checked + .slider:before {
+            left: 30px; /* スイッチをオンにしたときのアイコン位置を変更 */
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%; /* 丸い形状を持つ */
+            /* その他のスタイル指定 */
+        }
+
+    </style>
+</head>
+<body>
+<div id="header">
+<div id="logo">
+    <img src="logo_transparent.png" alt="ロゴの説明テキスト" class="logo">
+</div>
+        <div id="nav-links">
+            <a href="#">ホーム</a>
+            <a href="#">別のダウンロードセンター</a>
+        </div>
+        <div class="switch-container">
+            <label class="switch-label" for="dark-mode-toggle">ダークモード</label>
+            <input type="checkbox" id="dark-mode-toggle" class="switch-input">
+            <label class="slider round" for="dark-mode-toggle"></label>
+        </div>
+    </div>
+    <div id="container">
+        <h1>ダウンロードセンター</h1>
+
+<div class="version">
+    <h2>バージョン 1.0.0</h2>
+
+    <!-- ダウンロードリンク -->
+    <div class="download-link">
+        <div class="download-button" onclick="toggleDetails(this)">
+            詳細を開く <span class="details-arrow" id="arrow1">&#9660;</span>
+        </div>
+        <div class="download-details">
+            <p>ファイル名: File1.zip</p>
+            <p>作成日: 2023-11-05</p>
+            <p>ファイルサイズ: 10 MB</p>
+            <button class="url-button" onclick="window.location.href='downloads/v1.0.0/file1.zip'">ダウンロード</button>
+        </div>
+    </div>
+</div>
+
+<div class="version">
+    <h2>バージョン 2.0.0</h2>
+
+    <!-- ダウンロードリンク -->
+    <div class="download-link">
+        <div class="download-button" onclick="toggleDetails(this)">
+            詳細を開く <span class="details-arrow" id="arrow1">&#9660;</span>
+        </div>
+        <div class="download-details">
+            <p>ファイル名: File1.zip</p>
+            <p>作成日: 2023-11-05</p>
+            <p>ファイルサイズ: 10 MB</p>
+            <button class="url-button" onclick="window.location.href='downloads/v1.0.0/file1.zip'">ダウンロード</button>
+        </div>
+    </div>
+</div>
+    <script>
+       // ダークモードスイッチの要素を取得
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+        // スイッチが変更されたときの処理
+        darkModeToggle.addEventListener('change', () => {
+            // ダークモードクラスを切り替える
+            document.body.classList.toggle('dark-mode');
+            
+            // ダークモード設定を保存
+            if (darkModeToggle.checked) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+            }
+            // ダークモードアイコンの色を切り替える
+            const sliderIcon = document.querySelector('.slider:before');
+            sliderIcon.style.color = darkModeToggle.checked ? 'white' : 'black';
+            // ダークモードテキストの色を切り替える
+            const switchLabel = document.querySelector('.switch-label');
+            switchLabel.classList.toggle('dark-mode', darkModeToggle.checked);
+        });
+
+        // ページ読み込み時にダークモード設定を復元
+        const savedDarkMode = localStorage.getItem('darkMode');
+        if (savedDarkMode === 'enabled') {
+            darkModeToggle.checked = true;
+            document.body.classList.add('dark-mode');
+        }
+        // 詳細情報の表示/非表示を切り替える関数
+        function toggleDetails(button) {
+            const details = button.parentElement.querySelector('.download-details');
+            const arrow = button.querySelector('.details-arrow');
+            
+            if (details.classList.contains('active')) {
+                details.classList.remove('active');
+                arrow.innerHTML = '&#9660;';
+                button.classList.remove('disabled');
+                button.innerHTML = '詳細を開く <span class="details-arrow" id="' + button.id + '">&#9660;</span>';
+            } else {
+                details.classList.add('active');
+                arrow.innerHTML = '&#9650;';
+                button.classList.add('disabled');
+                button.innerHTML = '詳細を閉じる <span class="details-arrow" id="' + button.id + '">&#9650;</span>';
+            }
+        }
+
+    </script>
+</body>
+</html>
